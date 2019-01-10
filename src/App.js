@@ -10,7 +10,7 @@ class Product extends React.Component {
     let formattedPrice = formatPrice(product.price, product.currencyId);
 
     return (
-      <div className="shelf-item">
+      <div className="shelf-item" onClick={() => this.props.click(this.props.product)}>
         <div className=""><img src={require("./static/data/products/" + img + "_1.jpg")}
                   alt="This is nice shirt"/></div>
         <p className="shelf-item__title">{product.title}</p>
@@ -21,7 +21,7 @@ class Product extends React.Component {
           <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>
         </div>
       </div>
-      <div className="shelf-item__buy-btn" onClick={() => this.props.click(this.props.product)}>Add to cart</div>
+      <div className="shelf-item__buy-btn">Add to cart</div>
       </div>
     );
   }
