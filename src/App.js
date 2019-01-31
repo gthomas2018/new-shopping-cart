@@ -55,9 +55,11 @@ export default class App extends React.Component {
 
   removeFromCart = (product) => {
   	let new_cart_items = this.state.cart_items;
+  	let new_quantities = this.state.quantities;
     const index = this.state.cart_items.findIndex(p => p.id === product.id);
     if (index >= 0) {
       new_cart_items.splice(index, 1);
+      new_quantities.splice(index, 1)
     }
 
     this.setState({

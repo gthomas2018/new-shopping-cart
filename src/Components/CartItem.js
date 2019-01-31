@@ -16,7 +16,7 @@ export default class CartItem extends React.Component {
   };
 
   render() {
-    const { product, removeProduct, quantity } = this.props;
+    const { product, removeItem, quantity } = this.props;
     const classes = ['shelf-item'];
 
     if (!!this.state.isMouseOver) {
@@ -30,7 +30,7 @@ export default class CartItem extends React.Component {
 	          className="shelf-item__del"
 	          onMouseOver={() => this.handleMouseOver()}
 	          onMouseOut={() => this.handleMouseOut()}
-	          onClick={() => this.props.removeItem(product)}
+	          onClick={() => removeItem(product)}
 	        />
 	        <div className="shelf-item__thumb">
 	          <img src={require(`../static/data/products/${product.sku}_2.jpg`)} alt={product.title} title={product.title}/>
@@ -39,7 +39,7 @@ export default class CartItem extends React.Component {
 	          <p className="shelf-item__title">{product.title}</p>
 	          <p className="shelf-item__desc">
 	            {`${product.style}`} <br />
-	            Quantity: {this.props.quantity}
+	            Quantity: {quantity}
 	          </p>
 	        </div>
 	        <div className="shelf-item__price">
