@@ -232,7 +232,7 @@
       }
 
       &--mouseover {
-        background: #0c0b10;
+        background: white;
 
         .shelf-item__details {
           .title,
@@ -244,6 +244,7 @@
 
         .shelf-item__price {
           text-decoration: line-through;
+          color: black;
           opacity: 0.6;
         }
       }

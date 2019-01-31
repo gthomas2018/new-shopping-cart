@@ -22,11 +22,11 @@ export default class App extends React.Component {
     this.setState({cart_open : false})
   }
 
-  already_in_cart = product => {
+  itemIndex = (item) => {
     let index = 0;
     let return_value = -1;
     this.state.cart_items.forEach((prod) => {
-      if (product === prod) {
+      if (item === prod) {
         return_value = index;
       }
       index = index + 1;
@@ -34,23 +34,46 @@ export default class App extends React.Component {
     return return_value;
   }
 
-  add_to_cart = product => {
-    let index = this.already_in_cart(product); 
-    if (index !== -1) {
+  add_to_cart = (item) => {
+    let index = this.itemIndex(item); 
+    if (index !== -1)
+    {
       let new_q = this.state.quantities.slice();
       new_q[index] = new_q[index] + 1;
-      this.setState({ quantities: new_q, cart_open: true});
-    } else {
-      let new_ = this.state.cart_items.concat(product);
+      this.setState({
+      	quantities: new_q, 
+      	cart_open: true
+      });
+    }
+    else
+    {
+      let new_ = this.state.cart_items.concat(item);
       let new_q = this.state.quantities.concat(1);
       this.setState({ cart_items: new_, quantities: new_q, cart_open: true});
     }
   }
 
+  removeFromCart = (product) => {
+  	let new_cart_items = this.state.cart_items;
+    const index = this.state.cart_items.findIndex(p => p.id === product.id);
+    if (index >= 0) {
+      new_cart_items.splice(index, 1);
+    }
+
+    this.setState({
+    	cart_items: new_cart_items
+    });
+  }
+
   render() {
     return (
       <div>
-        <Cart cart_items={this.state.cart_items} quantities={this.state.quantities} cart_open={this.state.cart_open} openCart={this.openCart} closeCart={this.closeCart}/>
+        <Cart cart_items={this.state.cart_items}
+        	  quantities={this.state.quantities}
+        	  cart_open={this.state.cart_open}
+        	  removeItem={this.removeFromCart}
+        	  openCart={this.openCart}
+        	  closeCart={this.closeCart}/>
         <ShoppingTable products={this.props.products} click={this.add_to_cart}/>
       </div>
     );

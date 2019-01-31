@@ -4,47 +4,39 @@ import CartItem from './CartItem.js';
 
 
 export default class Cart extends React.Component {
-  removeProduct = product => {
-    const { updateCart } = this.props;
 
-    const index = this.props.cart_products.findIndex(p => p.id === product.id);
-    if (index >= 0) {
-      this.props.cart_products.splice(index, 1);
-      updateCart(this.props.cart_products);
-    }
-  };
+  totalQuantity(quantities) {
+  	let total = 0;
+  	for (let i = 0; i < quantities.length; i++)
+  	{
+  		total += quantities[i];
+  	}
+  	return total;
+  }
 
-  proceedToCheckout = () => {
-    const {
-      totalPrice,
-      productQuantity,
-      currencyFormat,
-      currencyId
-    } = this.props.cartTotal;
-
-    if (this.props.quantities.length === 0) {
+  proceedToCheckout = (price) => {
+    if (this.props.quantities.length === 0)
+    {
       alert('Add some product in the bag!');
-    } else {
-      alert(
-        `Checkout - Subtotal: ${currencyFormat} ${formatPrice(
-          totalPrice,
-          currencyId
-        )}`
-      );
     }
-  };
+    else
+    {
+      alert(`Checkout - Subtotal: ${formatPrice(price)}`);
+    }
+  }
 
   render() {
     let subtotal = 0;
-    this.props.cart_items.forEach((product) => {
-      subtotal = subtotal + product.price;
-    });
+    for (let i = 0; i < this.props.cart_items.length; i++)
+    {
+    	subtotal += this.props.cart_items[i].price * this.props.quantities[i];
+    }
 
     let index = -1; 
     const products = this.props.cart_items.map(p => {
       index = index + 1;
       return (
-        <CartItem product={p} removeProduct={this.removeProduct} quantity={this.props.quantities[index]} key={p.id} />
+        <CartItem product={p} removeItem={this.props.removeItem} quantity={this.props.quantities[index]} key={p.id} />
       );
     });
 
@@ -72,14 +64,14 @@ export default class Cart extends React.Component {
             onClick={() => this.props.openCart()}
             className="bag bag--float-cart-closed"
           >
-            <span className="bag__quantity">{1}</span>
+            <span className="bag__quantity">{this.totalQuantity(this.props.quantities)}</span>
           </span>
         )}
 
         <div className="float-cart__content">
           <div className="float-cart__header">
             <span className="bag">
-              <span className="bag__quantity">{1}</span>
+              <span className="bag__quantity">{this.totalQuantity(this.props.quantities)}</span>
             </span>
             <span className="header-title">Bag</span>
           </div>
@@ -101,7 +93,7 @@ export default class Cart extends React.Component {
                 ${formatPrice(subtotal)}
               </p>
             </div>
-            <div onClick={() => this.proceedToCheckout()} className="buy-btn">
+            <div onClick={() => this.proceedToCheckout(subtotal)} className="buy-btn">
               Checkout
             </div>
           </div>
@@ -118,4 +110,4 @@ const formatPrice = (x, currency) => {
     default:
       return x.toFixed(2);
   }
-};
+}

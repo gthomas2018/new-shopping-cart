@@ -1,14 +1,8 @@
 import React from 'react';
 import '../App.scss';
-import PropTypes from 'prop-types';
 
 
 export default class CartItem extends React.Component {
-  static propTypes = {
-    product: PropTypes.object.isRequired,
-    removeProduct: PropTypes.func.isRequired
-  };
-
   state = {
     isMouseOver: false
   };
@@ -25,18 +19,18 @@ export default class CartItem extends React.Component {
     const { product, removeProduct, quantity } = this.props;
     const classes = ['shelf-item'];
 
-    //if (!!this.state.isMouseOver) {
-      //classes.push('shelf-item--mouseover');
-    //}
+    if (!!this.state.isMouseOver) {
+      classes.push('shelf-item--mouseover');
+    }
 
     return (
       <div className={classes.join(' ')}>
       	<div className="shelf-item">
 	        <div
 	          className="shelf-item__del"
-	          //onMouseOver={() => this.handleMouseOver()}
-	          //onMouseOut={() => this.handleMouseOut()}
-	          //onClick={() => removeProduct(product)}
+	          onMouseOver={() => this.handleMouseOver()}
+	          onMouseOut={() => this.handleMouseOut()}
+	          onClick={() => this.props.removeItem(product)}
 	        />
 	        <div className="shelf-item__thumb">
 	          <img src={require(`../static/data/products/${product.sku}_2.jpg`)} alt={product.title} title={product.title}/>
@@ -49,7 +43,7 @@ export default class CartItem extends React.Component {
 	          </p>
 	        </div>
 	        <div className="shelf-item__price">
-	          <p>{`${product.currencyFormat}  ${formatPrice(product.price)}`}</p>
+	          <p>{`${product.currencyFormat}  ${formatPrice(product.price*quantity)}`}</p>
 	        </div>
 	     </div>
       </div>
