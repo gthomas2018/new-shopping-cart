@@ -3,7 +3,7 @@ import './App.scss';
 import ShoppingTable from './Components/ShoppingTable.js';
 import Cart from './Components/Cart.js';
 
-
+// firebase id is new-shopping-cart
 export default class App extends React.Component {
   constructor(props) {
     super(props);

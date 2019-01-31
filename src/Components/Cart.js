@@ -84,7 +84,7 @@ export default class Cart extends React.Component {
             <span className="header-title">Bag</span>
           </div>
 
-          <div className="float-cart__product-table">
+          <div className="float-cart__shelf-container">
             {products}
             {!products.length && (
               <p className="shelf-empty">
